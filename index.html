@@ -86,7 +86,7 @@ button:disabled { background:#ccc; }
 </div>
 
 <script>
-const SCRIPT_URL = "YOUR_SCRIPT_URL_HERE";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzj7c_Mutxjj4zD50M3czbh3PKT2lzsBC2uygVZIUvIRHvJtgvKUGFkZYZSYwBvaks/exec";
 
 const opportunitySelect = document.getElementById("opportunity");
 const monthGroup = document.getElementById("monthGroup");
@@ -98,16 +98,20 @@ const message = document.getElementById("message");
 
 // Load opportunities dynamically
 async function loadOpportunities() {
-  const response = await fetch(SCRIPT_URL);
-  const data = await response.json();
+  try {
+    const response = await fetch(SCRIPT_URL);
+    const data = await response.json();
 
-  opportunitySelect.innerHTML = '<option value="">Select Volunteer Opportunity</option>';
-  data.opportunities.forEach(op => {
-    const option = document.createElement("option");
-    option.value = op;
-    option.textContent = op;
-    opportunitySelect.appendChild(option);
-  });
+    opportunitySelect.innerHTML = '<option value="">Select Volunteer Opportunity</option>';
+    data.opportunities.forEach(op => {
+      const option = document.createElement("option");
+      option.value = op;
+      option.textContent = op;
+      opportunitySelect.appendChild(option);
+    });
+  } catch (err) {
+    opportunitySelect.innerHTML = '<option value="">Failed to load opportunities</option>';
+  }
 }
 
 loadOpportunities();
@@ -134,32 +138,16 @@ submitBtn.addEventListener("click", async () => {
   submitBtn.disabled = true;
   message.textContent = "Submitting...";
 
-  const response = await fetch(SCRIPT_URL, {
-    method: "POST",
-    body: JSON.stringify({
-      opportunity: opportunitySelect.value,
-      month: monthSelect.value,
-      name: nameInput.value,
-      unit: unitInput.value
-    })
-  });
+  try {
+    const response = await fetch(SCRIPT_URL, {
+      method: "POST",
+      body: JSON.stringify({
+        opportunity: opportunitySelect.value,
+        month: monthSelect.value,
+        name: nameInput.value,
+        unit: unitInput.value
+      })
+    });
 
-  const result = await response.json();
+    const result = awa
 
-  if (result.result === "duplicate") {
-    message.textContent = "You are already signed up for this month.";
-  } else {
-    message.textContent = "Successfully signed up!";
-    opportunitySelect.value = "";
-    monthSelect.value = "";
-    nameInput.value = "";
-    unitInput.value = "";
-    monthGroup.style.display = "none";
-  }
-
-  checkForm();
-});
-</script>
-
-</body>
-</html>
