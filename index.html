@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lang Cove - Grounds Crew</title>
+<style>
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #f4f6f8;
+  display: flex;
+  justify-content: center;
+}
+.app {
+  width: 100%;
+  max-width: 420px;
+  min-height: 100vh;
+  background: white;
+  padding: 24px;
+  box-sizing: border-box;
+}
+h1 { text-align:center; margin:0; }
+h2 { text-align:center; font-weight:normal; color:#555; }
+.form-group { margin-top:20px; }
+select, input {
+  width:100%;
+  padding:14px;
+  font-size:16px;
+  border-radius:10px;
+  border:1px solid #ddd;
+}
+button {
+  width:100%;
+  margin-top:24px;
+  padding:16px;
+  border-radius:12px;
+  border:none;
+  background:#1a73e8;
+  color:white;
+  font-size:16px;
+}
+button:disabled { background:#ccc; }
+.message { margin-top:20px; text-align:center; }
+</style>
+</head>
+
+<body>
+<div class="app">
+  <h1>Lang Cove</h1>
+  <h2>Grounds Crew</h2>
+
+  <div class="form-group">
+    <select id="opportunity">
+      <option value="">Loading opportunities...</option>
+    </select>
+  </div>
+
+  <div class="form-group" id="monthGroup" style="display:none;">
+    <select id="month">
+      <option value="">Select Month</option>
+      <option>January</option>
+      <option>February</option>
+      <option>March</option>
+      <option>April</option>
+      <option>May</option>
+      <option>June</option>
+      <option>July</option>
+      <option>August</option>
+      <option>September</option>
+      <option>October</option>
+      <option>November</option>
+      <option>December</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <input type="text" id="name" placeholder="Your Name">
+  </div>
+
+  <div class="form-group">
+    <input type="text" id="unit" placeholder="House Unit Number">
+  </div>
+
+  <button id="submitBtn" disabled>Sign Up</button>
+  <div class="message" id="message"></div>
+</div>
+
+<script>
+const SCRIPT_URL = "YOUR_SCRIPT_URL_HERE";
+
+const opportunitySelect = document.getElementById("opportunity");
+const monthGroup = document.getElementById("monthGroup");
+const monthSelect = document.getElementById("month");
+const nameInput = document.getElementById("name");
+const unitInput = document.getElementById("unit");
+const submitBtn = document.getElementById("submitBtn");
+const message = document.getElementById("message");
+
+// Load opportunities dynamically
+async function loadOpportunities() {
+  const response = await fetch(SCRIPT_URL);
+  const data = await response.json();
+
+  opportunitySelect.innerHTML = '<option value="">Select Volunteer Opportunity</option>';
+  data.opportunities.forEach(op => {
+    const option = document.createElement("option");
+    option.value = op;
+    option.textContent = op;
+    opportunitySelect.appendChild(option);
+  });
+}
+
+loadOpportunities();
+
+opportunitySelect.addEventListener("change", () => {
+  monthGroup.style.display = opportunitySelect.value ? "block" : "none";
+  checkForm();
+});
+
+monthSelect.addEventListener("change", checkForm);
+nameInput.addEventListener("input", checkForm);
+unitInput.addEventListener("input", checkForm);
+
+function checkForm() {
+  submitBtn.disabled = !(
+    opportunitySelect.value &&
+    monthSelect.value &&
+    nameInput.value.trim() &&
+    unitInput.value.trim()
+  );
+}
+
+submitBtn.addEventListener("click", async () => {
+  submitBtn.disabled = true;
+  message.textContent = "Submitting...";
+
+  const response = await fetch(SCRIPT_URL, {
+    method: "POST",
+    body: JSON.stringify({
+      opportunity: opportunitySelect.value,
+      month: monthSelect.value,
+      name: nameInput.value,
+      unit: unitInput.value
+    })
+  });
+
+  const result = await response.json();
+
+  if (result.result === "duplicate") {
+    message.textContent = "You are already signed up for this month.";
+  } else {
+    message.textContent = "Successfully signed up!";
+    opportunitySelect.value = "";
+    monthSelect.value = "";
+    nameInput.value = "";
+    unitInput.value = "";
+    monthGroup.style.display = "none";
+  }
+
+  checkForm();
+});
+</script>
+
+</body>
+</html>
