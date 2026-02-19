@@ -99,7 +99,7 @@ const message = document.getElementById("message");
 // Load opportunities dynamically
 async function loadOpportunities() {
   try {
-    const response = await fetch(SCRIPT_URL);
+    const response = await fetch(SCRIPT_URL + "?t=" + new Date().getTime());
     const data = await response.json();
 
     opportunitySelect.innerHTML = '<option value="">Select Volunteer Opportunity</option>';
@@ -111,8 +111,10 @@ async function loadOpportunities() {
     });
   } catch (err) {
     opportunitySelect.innerHTML = '<option value="">Failed to load opportunities</option>';
+    console.error(err);
   }
 }
+
 
 loadOpportunities();
 
