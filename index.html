@@ -86,6 +86,8 @@ button:disabled { background:#ccc; }
 </div>
 
 <script>
+document.addEventListener("DOMContentLoaded", function () {
+
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzj7c_Mutxjj4zD50M3czbh3PKT2lzsBC2uygVZIUvIRHvJtgvKUGFkZYZSYwBvaks/exec";
 
 const opportunitySelect = document.getElementById("opportunity");
@@ -96,7 +98,6 @@ const unitInput = document.getElementById("unit");
 const submitBtn = document.getElementById("submitBtn");
 const message = document.getElementById("message");
 
-// Load opportunities dynamically
 async function loadOpportunities() {
   try {
     const response = await fetch(SCRIPT_URL + "?t=" + new Date().getTime());
@@ -114,6 +115,11 @@ async function loadOpportunities() {
     console.error(err);
   }
 }
+
+loadOpportunities();
+
+});
+
 
 
 
@@ -153,4 +159,5 @@ submitBtn.addEventListener("click", async () => {
 
     const result = awa
 
-loadOpportunities();
+
+</script>
