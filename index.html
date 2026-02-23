@@ -2,12 +2,15 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Macondo&family=Roboto:ital,wght@0,100..900;1,100..900&family=Titan+One&display=swap" rel="stylesheet">
 <title>Lang Cove - Grounds Crew</title>
 <style>
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-  background: #f4f6f8;
+  background: #50514F;
   display: flex;
   justify-content: center;
 }
@@ -15,30 +18,49 @@ body {
   width: 100%;
   max-width: 420px;
   min-height: 100vh;
-  background: white;
+  background: #F7F4F3;
+  border-radius: 20px;
   padding: 24px;
   box-sizing: border-box;
+  
 }
-h1 { text-align:center; margin:0; }
-h2 { text-align:center; font-weight:normal; color:#555; }
+h1 { text-align:center; margin:0; font-family: "Titan One", sans-serif;
+  font-weight: 400;
+  font-style: normal; color: #247BA0 }
+h2 { text-align:center;  font-family: "Roboto", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100; color:#F25F5C; }
 .form-group { margin-top:20px; }
 select, input {
   width:100%;
   padding:14px;
   font-size:16px;
   border-radius:10px;
-  border:1px solid #ddd;
+  border:1px solid #70C1B3;
 }
+input:focus, select:focus {
+  outline:none;
+  border-color:#247BA0;
+  box-shadow: 0 0 5px #247BA0;
+}
+
 button {
   width:100%;
   margin-top:24px;
   padding:16px;
   border-radius:12px;
   border:none;
-  background:#1a73e8;
-  color:white;
+  background:#FFE066;
+  color:#247BA0;
   font-size:16px;
+  box-shadow: 5px 5px 10px 2px #50514F
 }
+
+button:active { background:#FFe066; box-shadow: 2px 2px 5px #50514F; transform: translateY(4px);}
+
 button:disabled { background:#ccc; }
 .message { margin-top:20px; text-align:center; }
 </style>
@@ -47,115 +69,212 @@ button:disabled { background:#ccc; }
 <body>
 <div class="app">
   <h1>Lang Cove</h1>
-  <h2>Grounds Crew</h2>
+  <h2>grounds crew</h2>
 
-  <div class="form-group">
-    <select id="opportunity">
-      <option value="">Loading opportunities...</option>
-    </select>
-  </div>
+  <!-- Volunteer Signup Form -->
+<form id="volunteerForm">
 
-  <div class="form-group" id="monthGroup" style="display:none;">
-    <select id="month">
-      <option value="">Select Month</option>
-      <option>January</option>
-      <option>February</option>
-      <option>March</option>
-      <option>April</option>
-      <option>May</option>
-      <option>June</option>
-      <option>July</option>
-      <option>August</option>
-      <option>September</option>
-      <option>October</option>
-      <option>November</option>
-      <option>December</option>
-    </select>
-  </div>
+  <label style="color: #247BA0; font-family: 'Titan One', sans-serif; font-weight: 400; font-style: normal; display: block; margin-bottom: 5px; margin-top: 10px;">opportunity</label>
+  <select id="opportunity"  
+        style="color: #F25F5C;  font-family: 'Roboto', sans-serif; font-optical-sizing: auto; font-weight: 200; font-style: normal;
+  font-variation-settings: 'wdth' 100; background-color: #F7F4F3; box-shadow: inset 0 2px 2px hsla(0, 0%, 0%, .35), 0 2px 0 hsla(0, 0%, 100%, .15) ;">
+    <option value="">loading opportunities...</option>
+  </select>
 
-  <div class="form-group">
-    <input type="text" id="name" placeholder="Your Name">
-  </div>
+  <div id="yearContainer" style="display:none;">
+  <label style="color: #247BA0; font-family: 'Titan One', sans-serif; font-weight: 400; font-style: normal; display: block; margin-bottom: 5px; margin-top: 10px;">year</label>
+  <select id="year" style="color: #F25F5C; font-family: 'Roboto', sans-serif; font-optical-sizing: auto; font-weight: 200; font-style: normal;
+  font-variation-settings: 'wdth' 100;background-color: #F7F4F3; box-shadow: inset 0 2px 2px hsla(0, 0%, 0%, .35), 0 2px 0 hsla(0, 0%, 100%, .15) ;" required disabled>
+    <option value="">select year</option>
+  </select>
+    </div>
 
-  <div class="form-group">
-    <input type="text" id="unit" placeholder="House Unit Number">
-  </div>
+    <div id="monthContainer" style="display:none;">
+  <label style="color: #247BA0; font-family: 'Titan One', sans-serif; font-weight: 400; font-style: normal; display: block; margin-bottom: 5px; margin-top: 10px;">month</label>
+  <select id="month" style="color: #F25F5C; font-family: 'Roboto', sans-serif; font-optical-sizing: auto; font-weight: 200; font-style: normal;
+  font-variation-settings: 'wdth' 100; background-color: #F7F4F3; box-shadow: inset 0 2px 2px hsla(0, 0%, 0%, .35), 0 2px 0 hsla(0, 0%, 100%, .15) ;" required disabled>
+    <option value="">select month</option>
+  </select>
+    </div>
 
-  <button id="submitBtn" disabled>Sign Up</button>
-  <div class="message" id="message"></div>
-</div>
+  <label style="color: #247BA0; font-family: 'Titan One', sans-serif; font-weight: 400; font-style: normal; display: block; margin-bottom: 5px; margin-top: 10px;">name</label>
+  <input type="text" id="name" style="max-width:92%; color: #F25F5C; font-family: 'Roboto', sans-serif; font-optical-sizing: auto; font-weight: 200; font-style: normal;
+  font-variation-settings: 'wdth' 100; background-color: #F7F4F3; box-shadow: inset 0 2px 2px hsla(0, 0%, 0%, .35), 0 2px 0 hsla(0, 0%, 100%, .15) ;" required />
+
+  <label style="color: #247BA0; font-family: 'Titan One', sans-serif; font-weight: 400; font-style: normal; display: block; margin-bottom: 5px; margin-top: 10px;">unit</label>
+  <input type="text" id="unit" style="max-width:92%; color: #F25F5C; font-family: 'Roboto', sans-serif; font-optical-sizing: auto; font-weight: 200; font-style: normal;
+  font-variation-settings: 'wdth' 100; background-color: #F7F4F3; box-shadow: inset 0 2px 2px hsla(0, 0%, 0%, .35), 0 2px 0 hsla(0, 0%, 100%, .15) ;" required />
+
+  <button type="submit" style="font-family: 'Titan One', sans-serif; font-weight: 400; font-style: normal;">Submit</button>
+</form>
+
+<div id="message" style="margin-top:10px;font-weight:bold;"></div>
 
 <script>
-document.addEventListener("DOMContentLoaded", function () {
-
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzj7c_Mutxjj4zD50M3czbh3PKT2lzsBC2uygVZIUvIRHvJtgvKUGFkZYZSYwBvaks/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbzj7c_Mutxjj4zD50M3czbh3PKT2lzsBC2uygVZIUvIRHvJtgvKUGFkZYZSYwBvaks/exec";
 
 const opportunitySelect = document.getElementById("opportunity");
-const monthGroup = document.getElementById("monthGroup");
+const yearSelect = document.getElementById("year");
 const monthSelect = document.getElementById("month");
-const nameInput = document.getElementById("name");
-const unitInput = document.getElementById("unit");
-const submitBtn = document.getElementById("submitBtn");
-const message = document.getElementById("message");
+const form = document.getElementById("volunteerForm");
+const messageDiv = document.getElementById("message");
+const yearContainer = document.getElementById("yearContainer");
+const monthContainer = document.getElementById("monthContainer");
 
-async function loadOpportunities() {
+/* ====== HELPER FUNCTIONS ====== */
+function showMessage(text, color="green") {
+  messageDiv.textContent = text;
+  messageDiv.style.color = color;
+}
+function showLoading(select) {
+  select.innerHTML = '<option>Loading...</option>';
+  select.disabled = true;
+}
+function resetDropdown(select, placeholder) {
+  select.innerHTML = `<option value="">${placeholder}</option>`;
+  select.disabled = true;
+}
+
+
+
+
+ async function loadAllData() {
   try {
-    const response = await fetch(SCRIPT_URL + "?t=" + new Date().getTime());
-    const data = await response.json();
+    const res = await fetch(API_URL + "?type=all&t=" + Date.now());
+    volunteerData = await res.json();
 
-    opportunitySelect.innerHTML = '<option value="">Select Volunteer Opportunity</option>';
-    data.opportunities.forEach(op => {
+    opportunitySelect.innerHTML = '<option value="">Select Opportunity</option>';
+
+    Object.keys(volunteerData).forEach(op => {
       const option = document.createElement("option");
       option.value = op;
       option.textContent = op;
       opportunitySelect.appendChild(option);
     });
+
   } catch (err) {
-    opportunitySelect.innerHTML = '<option value="">Failed to load opportunities</option>';
-    console.error(err);
+    showMessage("Failed to load data.", "red");
   }
 }
-
-loadOpportunities();
-
-});
-
-
 
 
 
 opportunitySelect.addEventListener("change", () => {
-  monthGroup.style.display = opportunitySelect.value ? "block" : "none";
-  checkForm();
+
+  resetDropdown(yearSelect, "Select Year");
+  resetDropdown(monthSelect, "Select Month");
+  yearContainer.style.display = "none";
+  monthContainer.style.display = "none";
+
+  const selected = opportunitySelect.value;
+  if (!selected || !volunteerData[selected]) return;
+
+  const years = Object.keys(volunteerData[selected]);
+
+  if (years.length === 0) return;
+
+  yearContainer.style.display = "block";
+
+  years.sort().forEach(y => {
+    const option = document.createElement("option");
+    option.value = y;
+    option.textContent = y;
+    yearSelect.appendChild(option);
+  });
+
+  yearSelect.disabled = false;
 });
 
-monthSelect.addEventListener("change", checkForm);
-nameInput.addEventListener("input", checkForm);
-unitInput.addEventListener("input", checkForm);
+yearSelect.addEventListener("change", () => {
 
-function checkForm() {
-  submitBtn.disabled = !(
-    opportunitySelect.value &&
-    monthSelect.value &&
-    nameInput.value.trim() &&
-    unitInput.value.trim()
-  );
-}
+  resetDropdown(monthSelect, "Select Month");
+  monthContainer.style.display = "none";
 
-submitBtn.addEventListener("click", async () => {
-  submitBtn.disabled = true;
-  message.textContent = "Submitting...";
+  const op = opportunitySelect.value;
+  const year = yearSelect.value;
+
+  if (!op || !year) return;
+
+  const months = volunteerData[op][year];
+  if (!months || months.length === 0) return;
+
+  monthContainer.style.display = "block";
+
+  const today = new Date();
+  const currentYear = today.getFullYear();
+  const currentMonth = today.getMonth();
+
+  months.forEach(monthName => {
+    const monthNumber = new Date(`${monthName} 1, 2000`).getMonth();
+
+    if (parseInt(year) === currentYear && monthNumber < currentMonth) return;
+
+    const option = document.createElement("option");
+    option.value = monthName;
+    option.textContent = monthName;
+    monthSelect.appendChild(option);
+  });
+
+  monthSelect.disabled = false;
+});
+
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  showMessage("Submitting...", "blue");
+
+  let payload;
+
+  if (yearSelect.value) {
+    payload = {
+      opportunity: opportunitySelect.value,
+      year: parseInt(yearSelect.value),
+      month: monthSelect.value,
+      name: document.getElementById("name").value.trim(),
+      unit: document.getElementById("unit").value.trim()
+    };
+  } else {
+    payload = {
+      opportunity: opportunitySelect.value,
+      name: document.getElementById("name").value.trim(),
+      unit: document.getElementById("unit").value.trim()
+    };
+  }
 
   try {
-    const response = await fetch(SCRIPT_URL + "?t=" + new Date().getTime(), {
+    const res = await fetch(API_URL, {
       method: "POST",
-      body: JSON.stringify({
-        opportunity: opportunitySelect.value,
-        month: monthSelect.value,
-        name: nameInput.value,
-        unit: unitInput.value
-      })
+      body: JSON.stringify(payload)
     });
 
-    const result = awa
+    const result = await res.json();
+
+    if (result.result === "success") {
+      showMessage(
+        `Successfully signed up for ${payload.opportunity}${payload.month ? " - " + payload.month : ""}${payload.year ? " " + payload.year : ""}!`,
+        "green"
+      );
+
+      form.reset();
+      resetDropdown(yearSelect, "Select Year");
+      resetDropdown(monthSelect, "Select Month");
+      yearContainer.style.display = "none";
+      monthContainer.style.display = "none";
+
+    } else if (result.result === "already_taken") {
+      showMessage("Sorry, that month is already taken.", "orange");
+    } else {
+      showMessage("Unexpected error. Please try again.", "red");
+    }
+
+  } catch {
+    showMessage("Unable to connect to server.", "red");
+  }
+});
+
+/* ====== INITIALIZE ====== */
+loadAllData();
 </script>
+
+
+
